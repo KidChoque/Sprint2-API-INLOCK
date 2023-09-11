@@ -6,7 +6,13 @@ namespace senai.inlock.webApi_.Repositorys
 {
     public class JogosRepository : IJogosRepository
     {
-        private string StringConexao = "Data Source = NOTE08-S14; Initial Catalog = Filmes; User ID = sa; Pwd=Senai@134";
+        private string StringConexao = "Data Source = NOTE08-S14; Initial Catalog = inlock_games_manha; User ID = SA; Pwd=Senai@134";
+
+        public JogosDomain BuscarPorId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Cadastrar(JogosDomain novoJogo)
         {
             using (SqlConnection con = new SqlConnection(StringConexao))
@@ -15,13 +21,14 @@ namespace senai.inlock.webApi_.Repositorys
 
                 using (SqlCommand cmd = new SqlCommand(queryInsertJogo, con))
                 {
-                    con.Open();
 
                     cmd.Parameters.AddWithValue("@Nome", novoJogo.Nome);
                     cmd.Parameters.AddWithValue("@IdEstudio", novoJogo.IdEstudio);
                     cmd.Parameters.AddWithValue("@Descricao", novoJogo.Descricao);
                     cmd.Parameters.AddWithValue("@DataLancamento", novoJogo.DataLancamento);
                     cmd.Parameters.AddWithValue("@Valor", novoJogo.Valor);
+
+                    con.Open();
 
                     cmd.ExecuteNonQuery();
 
@@ -37,13 +44,14 @@ namespace senai.inlock.webApi_.Repositorys
             using (SqlConnection con = new SqlConnection(StringConexao))
             {
 
-                string querySelectAll = "SELECT IdEstudio As Estudio, Nome as Jogo, Descricao,DataLancamento,Valor FROM Jogo;";
+                string querySelectAll = "SELECT IdJogo,Nome,Descricao,DataLancamento,Valor FROM Jogo";
+             
+                
+                SqlDataReader rdr;
 
                 con.Open();
 
-                SqlDataReader rdr;
-
-                using (SqlCommand cmd = new SqlCommand())
+                using (SqlCommand cmd = new SqlCommand(querySelectAll, con))
                 {
                     rdr = cmd.ExecuteReader();
                     while (rdr.Read())
@@ -53,15 +61,20 @@ namespace senai.inlock.webApi_.Repositorys
                             IdEstudio = Convert.ToInt32(rdr[0]),
                             Nome = rdr["Nome"].ToString(),
                             Descricao = rdr["Descricao"].ToString(),
-                            DataLancamento = Convert.ToDateTime(),
-                            Valor
+                            DataLancamento = Convert.ToDateTime(rdr["DataLancamento"]),
+                            Valor = Convert.ToDouble(rdr[0])
+                            
 
                         };
+                        ListaJogos.Add(jogos);
                     }
+                    
 
 
                 }
-            }
+            }return ListaJogos;
         }
+
+        
     }
 }
