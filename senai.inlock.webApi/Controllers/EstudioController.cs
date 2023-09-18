@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using senai.inlock.webApi_.Domains;
 
 namespace senai.inlock.webApi_.Controllers
 {
@@ -7,5 +8,10 @@ namespace senai.inlock.webApi_.Controllers
     [ApiController]
     public class EstudioController : ControllerBase
     {
+
+    }
+    
+
+     
     }
 }
