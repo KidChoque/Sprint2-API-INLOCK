@@ -52,7 +52,7 @@ namespace senai.inlock.webApi_.Repositorys
                     }
                 }
             }
-
+            return ListaEstudio;
 
         }
     }
